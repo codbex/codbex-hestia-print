@@ -7,6 +7,7 @@ import { CityRepository as CityDao } from "../../../../codbex-cities/gen/codbex-
 import { CountryRepository as CountryDao } from "../../../../codbex-countries/gen/codbex-countries/dao/Countries/CountryRepository";
 import { PaymentMethodRepository as PaymentMethodDao } from "../../../../codbex-methods/gen/codbex-methods/dao/Methods/PaymentMethodRepository";
 import { SentMethodRepository as SentMethodDao } from "../../../../codbex-methods/gen/codbex-methods/dao/Methods/SentMethodRepository";
+import { SalesOrderItemStatusRepository as SalesOrderItemStatusDao } from "../../../../codbex-orders/gen/codbex-orders/dao/OrdersSettings/SalesOrderItemStatusRepository";
 
 import { Controller, Get } from "sdk/http";
 
@@ -22,6 +23,7 @@ class SalesOrderService {
     private readonly countryDao;
     private readonly paymentMethodDao;
     private readonly sentMethodDao;
+    private readonly salesOrderItemStatusDao;
 
     constructor() {
         this.salesOrderDao = new SalesOrderDao();
@@ -33,6 +35,7 @@ class SalesOrderService {
         this.countryDao = new CountryDao();
         this.paymentMethodDao = new PaymentMethodDao();
         this.sentMethodDao = new SentMethodDao();
+        this.salesOrderItemStatusDao = new SalesOrderItemStatusDao();
     }
 
     @Get("/:salesOrderId")
@@ -57,6 +60,16 @@ class SalesOrderService {
         salesOrderItems.forEach((item: any) => {
             let product = this.productDao.findById(item.Product);
             item.Product = product.Name;
+
+            const itemStatus = this.salesOrderItemStatusDao.findAll({
+                $filter: {
+                    equals: {
+                        Id: item.SalesOrderItemStatus
+                    }
+                }
+            });
+
+            item.SalesOrderItemStatus = itemStatus[0].Name;
         });
 
         let company;
