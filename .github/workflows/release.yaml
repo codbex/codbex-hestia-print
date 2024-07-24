@@ -1,0 +1,35 @@
+name: Release - Module
+
+on:
+  workflow_dispatch:
+    inputs:
+      release-version:
+        description: Release Version
+        required: true
+        default: 1.0.0
+
+run-name: 'version set to ${{ inputs.release-version }} for release'
+
+jobs:
+  main:
+    uses: codbex/codbex-infra/.github/workflows/module-release.yaml@main
+    with:
+      packages: codbex-hestia-print
+      packages-build: codbex-hestia-print
+      release-version: ${{ inputs.release-version }}
+      release-content: |
+        ## codbex-countries - ${{ inputs.release-version }}
+  
+        Print Templates Module
+  
+        ## Installation
+  
+        ```
+        npm install @codbex/codbex-hestia-print@${{ inputs.release-version }}
+
+        ```
+  
+        ## Access points:
+  
+        - [/services/web/codbex-hestia-print/gen/](http://localhost:80/services/web/codbex-hestia-print/gen/) - Admin Panel
+    secrets: inherit
