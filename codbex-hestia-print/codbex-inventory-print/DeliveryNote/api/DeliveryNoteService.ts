@@ -6,6 +6,7 @@ import { CityRepository as CityDao } from "../../../../codbex-cities/gen/codbex-
 import { CountryRepository as CountryDao } from "../../../../codbex-countries/gen/codbex-countries/dao/Countries/CountryRepository";
 import { StoreRepository as StoreDao } from "../../../../codbex-inventory/gen/codbex-inventory/dao/Stores/StoreRepository";
 import { CustomerRepository as CustomerDao } from "../../../../codbex-partners/gen/codbex-partners/dao/Customers/CustomerRepository";
+import { EmployeeRepository as EmployeeDao } from "../../../../codbex-employees/gen/codbex-employees/dao/Employees/EmployeeRepository";
 
 
 import { Controller, Get } from "sdk/http";
@@ -21,6 +22,7 @@ class DeliveryNoteService {
     private readonly countryDao;
     private readonly storeDao;
     private readonly customerDao;
+    private readonly employeeDao;
 
     constructor() {
         this.deliveryNoteDao = new DeliveryNoteDao();
@@ -30,7 +32,8 @@ class DeliveryNoteService {
         this.cityDao = new CityDao();
         this.countryDao = new CountryDao();
         this.storeDao = new StoreDao();
-        this.customerDao = new CustomerDao():
+        this.customerDao = new CustomerDao();
+        this.employeeDao = new EmployeeDao();
     }
 
     @Get("/:deliveryNoteId")
@@ -77,7 +80,7 @@ class DeliveryNoteService {
             }
         });
 
-        const employee = this.customerDao.findAll({
+        const employee = this.employeeDao.findAll({
             $filter: {
                 equals: {
                     Id: deliveryNote.Employee
@@ -91,7 +94,7 @@ class DeliveryNoteService {
             company: company,
             store: store,
             customer: customer[0].Name,
-            employee: employee[0].Name
+            employee: employee[0].FirstName
         }
 
     }
