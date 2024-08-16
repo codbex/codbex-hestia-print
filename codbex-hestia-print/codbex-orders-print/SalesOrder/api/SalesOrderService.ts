@@ -21,7 +21,7 @@ class SalesOrderService {
     private readonly companyDao;
     private readonly cityDao;
     private readonly countryDao;
-    private readonly paymentMethodDao;
+    // private readonly paymentMethodDao;
     private readonly sentMethodDao;
     private readonly salesOrderItemStatusDao;
 
@@ -33,7 +33,7 @@ class SalesOrderService {
         this.companyDao = new CompanyDao();
         this.cityDao = new CityDao();
         this.countryDao = new CountryDao();
-        this.paymentMethodDao = new PaymentMethodDao();
+        // this.paymentMethodDao = new PaymentMethodDao();
         this.sentMethodDao = new SentMethodDao();
         this.salesOrderItemStatusDao = new SalesOrderItemStatusDao();
     }
@@ -43,10 +43,10 @@ class SalesOrderService {
         const salesOrderId = ctx.pathParameters.salesOrderId;
 
         let salesOrder = this.salesOrderDao.findById(salesOrderId);
-        let paymentMethod = this.paymentMethodDao.findById(salesOrder.PaymentMethod);
+        // let paymentMethod = this.paymentMethodDao.findById(salesOrder.PaymentMethod);
         let sentMethod = this.sentMethodDao.findById(salesOrder.SentMethod);
 
-        salesOrder.PaymentMethod = paymentMethod.Name;
+        // salesOrder.PaymentMethod = paymentMethod.Name;
         salesOrder.SentMethod = sentMethod.Name;
 
         let salesOrderItems = this.salesOrderItemDao.findAll({
