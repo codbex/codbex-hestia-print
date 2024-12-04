@@ -18,7 +18,7 @@ jobs:
       packages-build: codbex-hestia-print
       release-version: ${{ inputs.release-version }}
       release-content: |
-        ## codbex-countries - ${{ inputs.release-version }}
+        ## codbex-hestia-print - ${{ inputs.release-version }}
   
         Print Templates Module
   
